@@ -1903,13 +1903,21 @@ __webpack_require__.r(__webpack_exports__);
       return _.range((this.section - 1) * this.numberPerSection + 1, this.lastPage + 1);
     }
   },
+  mounted: function mounted() {
+    if (this.meta.current_page > this.meta.last_page) {
+      this.switched(this.meta.last_page);
+    }
+  },
   methods: {
     switched: function switched(page) {
-      if (page <= 0 || page > this.meta.last_page) {
+      if (this.pageIsOutOfBound(page)) {
         return;
       }
 
       this.$emit('pagination:switch', page);
+    },
+    pageIsOutOfBound: function pageIsOutOfBound(page) {
+      return page <= 0 || page > this.meta.last_page;
     },
     goForwardSection: function goForwardSection() {
       this.switched(this.firstPageOfSection(this.section + 1));
@@ -37535,10 +37543,12 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("pagination", {
-            attrs: { meta: _vm.meta },
-            on: { "pagination:switch": _vm.switchPage }
-          })
+          _vm.meta.current_page
+            ? _c("pagination", {
+                attrs: { meta: _vm.meta },
+                on: { "pagination:switch": _vm.switchPage }
+              })
+            : _vm._e()
         ],
         1
       )

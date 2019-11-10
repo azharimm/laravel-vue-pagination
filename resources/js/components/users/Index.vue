@@ -7,7 +7,7 @@
                 <div class="card-body">
                    <user v-for="user in users" :key="user.id" :user="user"></user>
                 </div>
-                <pagination :meta="meta" @pagination:switch="switchPage"></pagination>
+                <pagination v-if="meta.current_page" :meta="meta" @pagination:switch="switchPage"></pagination>
             </div>
         </div>
 

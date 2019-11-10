@@ -65,12 +65,20 @@ export default {
             )
         }
     },
+    mounted() {
+        if(this.meta.current_page > this.meta.last_page){
+            this.switched(this.meta.last_page)
+        }
+    },
     methods: {
         switched(page){
-            if(page <= 0 || page > this.meta.last_page){
+            if(this.pageIsOutOfBound(page)){
                 return 
             }
             this.$emit('pagination:switch', page)
+        },
+        pageIsOutOfBound(page) {
+            return page <= 0 || page > this.meta.last_page
         },
         goForwardSection() {
             this.switched(this.firstPageOfSection(this.section + 1))
