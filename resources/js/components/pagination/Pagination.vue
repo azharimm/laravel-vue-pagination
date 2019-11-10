@@ -18,6 +18,7 @@
             </ul>
             <p>Sections : {{sections}}</p>
             <p>Section : {{section}}</p>
+            <p>Last Page : {{lastPage}}</p>
         </nav>
     </div>
 </template>
@@ -37,8 +38,18 @@ export default {
         section() {
             return Math.ceil(this.meta.current_page / this.numberPerSection)
         },
+        lastPage() {
+            let lastPage = ((this.section -1 ) * this.numberPerSection) + this.numberPerSection
+            if(this.section === this.sections){
+                lastPage = this.meta.last_page
+            }
+            return lastPage
+        },
         pages() {
-            return _.range(1, 101)
+            return _.range(
+                (this.section - 1) * this.numberPerSection + 1, 
+                this.lastPage + 1
+            )
         }
     },
     methods: {

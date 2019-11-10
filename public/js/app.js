@@ -1862,6 +1862,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['meta'],
   data: function data() {
@@ -1876,8 +1877,17 @@ __webpack_require__.r(__webpack_exports__);
     section: function section() {
       return Math.ceil(this.meta.current_page / this.numberPerSection);
     },
+    lastPage: function lastPage() {
+      var lastPage = (this.section - 1) * this.numberPerSection + this.numberPerSection;
+
+      if (this.section === this.sections) {
+        lastPage = this.meta.last_page;
+      }
+
+      return lastPage;
+    },
     pages: function pages() {
-      return _.range(1, 101);
+      return _.range((this.section - 1) * this.numberPerSection + 1, this.lastPage + 1);
     }
   },
   methods: {
@@ -37375,7 +37385,9 @@ var render = function() {
       _vm._v(" "),
       _c("p", [_vm._v("Sections : " + _vm._s(_vm.sections))]),
       _vm._v(" "),
-      _c("p", [_vm._v("Section : " + _vm._s(_vm.section))])
+      _c("p", [_vm._v("Section : " + _vm._s(_vm.section))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Last Page : " + _vm._s(_vm.lastPage))])
     ])
   ])
 }
