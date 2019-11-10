@@ -1873,6 +1873,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['meta'],
   data: function data() {
@@ -1907,6 +1913,15 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.$emit('pagination:switch', page);
+    },
+    goForwardSection: function goForwardSection() {
+      this.switched(this.firstPageOfSection(this.section + 1));
+    },
+    goBackSection: function goBackSection() {
+      this.switched(this.firstPageOfSection(this.section - 1));
+    },
+    firstPageOfSection: function firstPageOfSection(section) {
+      return (section - 1) * this.numberPerSection + 1;
     }
   }
 });
@@ -37310,7 +37325,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
+    _c("nav", { attrs: { "aria-label": "navigation" } }, [
       _c(
         "ul",
         { staticClass: "pagination" },
@@ -37356,6 +37371,23 @@ var render = function() {
                     },
                     [_vm._v("1")]
                   )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "page-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.goBackSection($event)
+                        }
+                      }
+                    },
+                    [_vm._v("...")]
+                  )
                 ])
               ]
             : _vm._e(),
@@ -37389,6 +37421,23 @@ var render = function() {
           _vm._v(" "),
           _vm.section < _vm.sections
             ? [
+                _c("li", { staticClass: "page-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.goForwardSection($event)
+                        }
+                      }
+                    },
+                    [_vm._v("...")]
+                  )
+                ]),
+                _vm._v(" "),
                 _c("li", { staticClass: "page-item" }, [
                   _c(
                     "a",

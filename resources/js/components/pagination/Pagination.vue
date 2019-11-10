@@ -1,6 +1,6 @@
 <template>
     <div>
-       <nav aria-label="Page navigation example">
+       <nav aria-label="navigation">
             <ul class="pagination">
                 <li class="page-item" :class="{'disabled' : meta.current_page === 1}">
                     <a class="page-link" href="#" @click.prevent="switched(meta.current_page - 1)">&laquo;</a>
@@ -8,6 +8,9 @@
                 <template v-if="section > 1">
                     <li class="page-item">
                         <a class="page-link" href="#" @click.prevent="switched(1)">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" @click.prevent="goBackSection">...</a>
                     </li>
                 </template>    
                 <li 
@@ -18,6 +21,9 @@
                     <a class="page-link" href="#" @click.prevent="switched(page)">{{page}}</a>
                 </li>
                 <template v-if="section < sections">
+                    <li class="page-item">
+                        <a class="page-link" href="#" @click.prevent="goForwardSection">...</a>
+                    </li>
                     <li class="page-item">
                         <a class="page-link" href="#" @click.prevent="switched(meta.last_page)">{{meta.last_page}}</a>
                     </li>
@@ -68,6 +74,15 @@ export default {
                 return 
             }
             this.$emit('pagination:switch', page)
+        },
+        goForwardSection() {
+            this.switched(this.firstPageOfSection(this.section + 1))
+        },
+        goBackSection() {
+            this.switched(this.firstPageOfSection(this.section - 1))
+        },
+        firstPageOfSection(section) {
+            return (section - 1) * this.numberPerSection + 1
         }
     }
 }
