@@ -1852,8 +1852,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['meta']
+  props: ['meta'],
+  methods: {
+    switched: function switched(page) {
+      if (page <= 0 || page > this.meta.last_page) {
+        return;
+      }
+
+      this.$emit('pagination:switch', page);
+    }
+  }
 });
 
 /***/ }),
@@ -1899,12 +1916,22 @@ __webpack_require__.r(__webpack_exports__);
     Pagination: _pagination_Pagination__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
-    var _this = this;
+    this.getUser();
+  },
+  methods: {
+    getUser: function getUser() {
+      var _this = this;
 
-    axios.get('/api/users').then(function (response) {
-      _this.users = response.data.data;
-      _this.meta = response.data.meta;
-    });
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('/api/users', {
+        params: {
+          page: page
+        }
+      }).then(function (response) {
+        _this.users = response.data.data;
+        _this.meta = response.data.meta;
+      });
+    }
   }
 });
 
@@ -37250,45 +37277,87 @@ var render = function() {
         "ul",
         { staticClass: "pagination" },
         [
-          _vm._m(0),
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: { disabled: _vm.meta.current_page === 1 }
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.switched(_vm.meta.current_page - 1)
+                    }
+                  }
+                },
+                [_vm._v("«")]
+              )
+            ]
+          ),
           _vm._v(" "),
           _vm._l(_vm.meta.last_page, function(page) {
-            return _c("li", { key: page, staticClass: "page-item" }, [
-              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                _vm._v(_vm._s(page))
-              ])
-            ])
+            return _c(
+              "li",
+              {
+                key: page,
+                staticClass: "page-item",
+                class: { active: _vm.meta.current_page === page }
+              },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "page-link",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.switched(page)
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(page))]
+                )
+              ]
+            )
           }),
           _vm._v(" "),
-          _vm._m(1)
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: { disabled: _vm.meta.current_page === _vm.meta.last_page }
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.switched(_vm.meta.current_page + 1)
+                    }
+                  }
+                },
+                [_vm._v("»")]
+              )
+            ]
+          )
         ],
         2
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "page-item" }, [
-      _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-        _vm._v("Previous")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "page-item" }, [
-      _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-        _vm._v("Next")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -37327,7 +37396,10 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("pagination", { attrs: { meta: _vm.meta } })
+          _c("pagination", {
+            attrs: { meta: _vm.meta },
+            on: { "pagination:switch": _vm.getUser }
+          })
         ],
         1
       )

@@ -7,7 +7,7 @@
                 <div class="card-body">
                    <user v-for="user in users" :key="user.id" :user="user"></user>
                 </div>
-                <pagination :meta="meta"></pagination>
+                <pagination :meta="meta" @pagination:switch="getUser"></pagination>
             </div>
         </div>
 
@@ -30,11 +30,16 @@ export default {
         Pagination
     },
     mounted(){
-        axios.get('/api/users')
-        .then(response => {
-            this.users = response.data.data
-            this.meta = response.data.meta
-        })
+        this.getUser()
+    },
+    methods: {
+        getUser(page = 1){
+            axios.get('/api/users', {params: {page}})
+            .then(response => {
+                this.users = response.data.data
+                this.meta = response.data.meta
+            })
+        }
     }
 }
 </script>
