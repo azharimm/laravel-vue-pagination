@@ -1863,6 +1863,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['meta'],
   data: function data() {
@@ -37329,6 +37339,27 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _vm.section > 1
+            ? [
+                _c("li", { staticClass: "page-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.switched(1)
+                        }
+                      }
+                    },
+                    [_vm._v("1")]
+                  )
+                ])
+              ]
+            : _vm._e(),
+          _vm._v(" "),
           _vm._l(_vm.pages, function(page) {
             return _c(
               "li",
@@ -37355,6 +37386,27 @@ var render = function() {
               ]
             )
           }),
+          _vm._v(" "),
+          _vm.section < _vm.sections
+            ? [
+                _c("li", { staticClass: "page-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.switched(_vm.meta.last_page)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.meta.last_page))]
+                  )
+                ])
+              ]
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "li",
