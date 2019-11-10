@@ -32,9 +32,6 @@
                     <a class="page-link" href="#" @click.prevent="switched(meta.current_page + 1)">&raquo;</a>
                 </li>
             </ul>
-            <p>Sections : {{sections}}</p>
-            <p>Section : {{section}}</p>
-            <p>Last Page : {{lastPage}}</p>
         </nav>
     </div>
 </template>
