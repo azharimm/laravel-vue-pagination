@@ -1860,8 +1860,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['meta'],
+  data: function data() {
+    return {
+      numberPerSection: 3
+    };
+  },
+  computed: {
+    sections: function sections() {
+      return Math.ceil(this.meta.last_page / this.numberPerSection);
+    },
+    section: function section() {
+      return Math.ceil(this.meta.current_page / this.numberPerSection);
+    },
+    pages: function pages() {
+      return _.range(1, 101);
+    }
+  },
   methods: {
     switched: function switched(page) {
       if (page <= 0 || page > this.meta.last_page) {
@@ -37301,7 +37319,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._l(_vm.meta.last_page, function(page) {
+          _vm._l(_vm.pages, function(page) {
             return _c(
               "li",
               {
@@ -37353,7 +37371,11 @@ var render = function() {
           )
         ],
         2
-      )
+      ),
+      _vm._v(" "),
+      _c("p", [_vm._v("Sections : " + _vm._s(_vm.sections))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Section : " + _vm._s(_vm.section))])
     ])
   ])
 }
